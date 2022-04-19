@@ -39,7 +39,7 @@ def index(request):
 
     channels=[]
     
-    date=[]
+    # date=[]
     
      # Chanells code StartL
     subscription_url = 'https://www.googleapis.com/youtube/v3/subscriptions'
@@ -71,7 +71,7 @@ def index(request):
         
        
 
-        #channels endL
+      
         
         video_url = 'https://www.googleapis.com/youtube/v3/videos'
         search_url = 'https://www.googleapis.com/youtube/v3/search'
@@ -134,38 +134,19 @@ def index(request):
                 'like' : result['statistics']['likeCount'] if ("likeCount" in result['statistics']) else "0",
                 'views' : result['statistics']['viewCount'],
                 'comments':result['statistics']['commentCount'] if ("commentCount" in result['statistics']) else "0",
-                # 'date' : int(str(datetime.now()-(parser.parse(result['snippet']['publishedAt']).replace(tzinfo=None)))[:2]),
                 'date' : (datetime.now() - datetime.strptime(result['snippet']['publishedAt'], "%Y-%m-%dT%H:%M:%SZ")).total_seconds() / 60 
-                # 'current_date' : datetime.now(),
-                
-                # 'difference' : video_data['current_date'] - video_data['date'].replace(tzinfo=None)
+
             }            
             videos.append(video_data)
-        print(videos[0])
-# twitter 
-
-
-
-    # tweets = api.user_timeline(id='python', count=200)
-    # tweets_extended = api.user_timeline(id='python', tweet_mode='extended', count=200)
- 
-# Show one tweet's JSON
-    # tweet = tweets[0]
-    # print(tweet._json)
         
-
-    
     context = {
         'videos' : videos,
         'channels' : channels,
-        # 'trend' : trends_result[0]['trends'][:10],
-        # 'time_delta':timedelta
     }
 
     return render(request, 'index.html', context)
 
 def twitter(request):
-    # Search tweets
 
     auth = tweepy.OAuthHandler('lmi9wxZFfoKbsQsFHnS0b2wm1', 'mBdxtC2bi5QQsChY5mxGCP0eUbheoE2K7NNSlAn9TjjiHHqurO')
     auth.set_access_token('1308320106955575296-xTOiFToEm9vbI3Ylhp7Gdi3Gpkrvmp', 'ZKYs9xo1zQEuGakbO69PzTGcF7AWJSCMFtZF2wXBi45DH')
